@@ -1,0 +1,26 @@
+<?php use App\Domain\Documents\Document;
+
+if (count($documents)): ?>
+
+    <div class="documents-collection">
+    <?php foreach ($documents as $document): ?>
+        <?php /** @var Document $document */ ?>
+
+        <div class="collection-item">
+            <a href="<?= $_link('page', ['id' => $document->getLink()]) ?>">
+                <?php if (isset($term)): ?>
+                    <?= str_replace($term, "<strong>{$term}</strong>", $document->getTitle()) ?>
+                <?php else: ?>
+                    <?= $document->getTitle() ?>
+                <?php endif; ?>
+            </a>
+        </div>
+
+    <?php endforeach ?>
+    </div>
+
+<?php else: ?>
+
+    <div class="empty-collection">There is no documents yet</div>
+
+<?php endif;

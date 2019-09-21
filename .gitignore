@@ -1,0 +1,6 @@
+.idea
+/app/vendor/
+/app/tests/_output/
+/app/tests/_support/_generated/
+/docker/.env
+/docker/.ssl
