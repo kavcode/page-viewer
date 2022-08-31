@@ -4,8 +4,7 @@ use App\Domain\Documents\DocumentRepositoryFactory;
 
 return [
     'documents' => [
-        'driver'  => DocumentRepositoryFactory::DRIVER_FS,
-        //'driver'  => DocumentRepositoryFactory::DRIVER_MYSQL,
+        'driver'  => getenv('APP_DATA_SOURCE'),
         'drivers' => [
             'fs' => [
                 'directory' => __DIR__ . '/pages'

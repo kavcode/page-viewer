@@ -48,7 +48,7 @@ class DocumentRepositoryFactory
 
             default:
                 throw new \RuntimeException(
-                    "Unknown driver {$driver}"
+                    "Unknown datasource driver `{$driver}`. `fs` and `mysql` are available"
                 );
         }
     }

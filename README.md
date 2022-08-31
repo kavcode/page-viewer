@@ -3,11 +3,18 @@
 ## How to run
 
 ```
-λ cd /path/to/project/docker
+λ cd /path/to/project
 λ mv .env.exaple .env
-λ docker-compose exec php-fpm sh -c "composer install"
-λ docker-compose exec mysql sh -c "mysql -u root -p example < /tmp/database.sql"
-λ docker-compose up
+λ docker-compose run php-fpm composer install
+λ  docker-compose up -d
+```
+
+### How to stop 
+
+Go to the project directory if you aren't there
+
+```
+λ  docker-compose down
 ```
 
 ## Description
