@@ -6,19 +6,18 @@ namespace App\Domain\Documents;
 
 use App\Markdown\Parser;
 use App\Services\Container;
+use phpDocumentor\Reflection\Types\Void_;
 
 class DocumentRepositoryFactory
 {
     public const DRIVER_FS = 'fs';
     public const DRIVER_MYSQL = 'mysql';
-    private $container;
-    private $parser;
-    private $headlineExtractor;
-    public function __construct(Container $container, Parser $parser, HeadlineExtractor $headlineExtractor)
-    {
-        $this->container = $container;
-        $this->parser = $parser;
-        $this->headlineExtractor = $headlineExtractor;
+
+    public function __construct(
+        private readonly Container $container,
+        private readonly Parser $parser,
+        private readonly HeadlineExtractor $headlineExtractor
+    ) {
     }
 
     public function create(): DocumentRepositoryInterface

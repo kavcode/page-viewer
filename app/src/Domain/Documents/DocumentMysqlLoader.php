@@ -8,17 +8,14 @@ use App\Markdown\Parser;
 
 class DocumentMysqlLoader implements DocumentRepositoryInterface
 {
-    private $dsn;
-    private $user;
-    private $password;
-    private $parser;
-    private $connection;
-    public function __construct(string $dsn, string $user, string $password, Parser $parser)
-    {
-        $this->dsn = $dsn;
-        $this->user = $user;
-        $this->password = $password;
-        $this->parser = $parser;
+    private ?\PDO $connection = null;
+
+    public function __construct(
+        private readonly string $dsn,
+        private readonly string $user,
+        private readonly string $password,
+        private readonly Parser $parser
+    ) {
     }
 
 
@@ -32,7 +29,7 @@ class DocumentMysqlLoader implements DocumentRepositoryInterface
 
         $result = $stmt->execute();
         if (!$result) {
-            throw new \RuntimeException($this->getConnection()->errorInfo());
+            throw new \RuntimeException(implode(' ', $this->getConnection()->errorInfo()));
         }
 
         $data = [];
@@ -55,7 +52,7 @@ class DocumentMysqlLoader implements DocumentRepositoryInterface
         $stmt->bindParam('pattern', $value);
         $result = $stmt->execute();
         if (!$result) {
-            throw new \RuntimeException($this->getConnection()->errorInfo());
+            throw new \RuntimeException(implode(' ', $this->getConnection()->errorInfo()));
         }
 
         $data = [];
@@ -77,7 +74,7 @@ class DocumentMysqlLoader implements DocumentRepositoryInterface
         $stmt->bindParam('link', $link);
         $result = $stmt->execute();
         if (!$result) {
-            throw new \RuntimeException($this->getConnection()->errorInfo());
+            throw new \RuntimeException(implode(' ', $this->getConnection()->errorInfo()));
         }
 
         $data = $stmt->fetchAll();
@@ -86,7 +83,7 @@ class DocumentMysqlLoader implements DocumentRepositoryInterface
             : null;
     }
 
-    private function getConnection()
+    private function getConnection(): \PDO
     {
         if ($this->connection === null) {
             $this->connection = new \PDO($this->dsn, $this->user, $this->password);

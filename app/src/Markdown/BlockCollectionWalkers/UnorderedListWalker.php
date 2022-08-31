@@ -10,12 +10,15 @@ use App\Markdown\BlockTypeInterface;
 
 class UnorderedListWalker implements BlockCollectionWalkerInterface
 {
+    /**
+     * @param array<int, Block> $collection
+     * @return array<int, Block>
+     */
     public function walk(array $collection): array
     {
         $result = [];
         $lastKey = null;
         foreach ($collection as $k => $block) {
-        /** @var Block $block */
             if ($block->getType() === BlockTypeInterface::LIST_ITEM) {
                 if (!$lastKey) {
                     $result[$k] = new Block(BlockTypeInterface::UNORDERED_LIST);

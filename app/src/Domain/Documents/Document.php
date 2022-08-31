@@ -6,14 +6,11 @@ namespace App\Domain\Documents;
 
 class Document
 {
-    private $title;
-    private $link;
-    private $content;
-    public function __construct(string $title, string $link, string $content)
-    {
-        $this->title = $title;
-        $this->link = $link;
-        $this->content = $content;
+    public function __construct(
+        private readonly string $title,
+        private readonly string $link,
+        private readonly string $content
+    ) {
     }
 
     public function getTitle(): string

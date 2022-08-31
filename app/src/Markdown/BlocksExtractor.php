@@ -9,8 +9,8 @@ use PHPUnit\Framework\StaticAnalysis\HappyPath\AssertNotInstanceOf\B;
 class BlocksExtractor
 {
     /**
-     * @param string[] $lines
-     * @return Block[]
+     * @param array<int, string> $lines
+     * @return array<int, Block>
      */
     public function extract(array $lines): array
     {
@@ -19,7 +19,7 @@ class BlocksExtractor
         $isPrevLineEmpty = true;
         foreach ($lines as $line) {
             if (!$line || preg_match('/^\s+$/', $line)) {
-                if (!$isPrevLineEmpty) {
+                if (!$isPrevLineEmpty && $currentBlock) {
                     $blocks[] = $currentBlock;
                     $currentBlock = null;
                 }
@@ -36,13 +36,14 @@ class BlocksExtractor
                 continue;
             }
 
-            if (preg_match('/^\*/', $line)) {
+            if (preg_match('/^\*/', $line) && $currentBlock) {
                 $blocks[] = $currentBlock;
                 $currentBlock = new Block(BlockTypeInterface::LIST_ITEM, [substr($line, 1)]);
                 continue;
             }
 
-            $currentBlock->addLine($line);
+            $currentBlock?->addLine($line);
+
             $isPrevLineEmpty = false;
         }
 

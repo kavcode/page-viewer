@@ -11,11 +11,14 @@ use App\Markdown\SubHeaderBlock;
 
 class SubHeaderWalker implements BlockCollectionWalkerInterface
 {
+    /**
+     * @param array<array-key, Block> $collection
+     * @return array<int, Block>
+     */
     public function walk(array $collection): array
     {
         $result = [];
         foreach ($collection as $block) {
-        /** @var Block $block */
             $lines = $block->getLines();
             if (preg_match('/^(#+)[^#](.*)$/', $lines[0], $match)) {
                 $level = strlen($match[1]);

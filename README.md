@@ -26,6 +26,12 @@ Go to the project directory if you aren't there
 λ docker-compose exec php-fpm  vendor/bin/phpcs
 ```
 
+### How to run static analysis
+
+```
+λ docker-compose exec php-fpm vendor/bin/psalm
+```
+
 ## Description
 
 Please create a simple page viewer. Pages are plain text or HTML

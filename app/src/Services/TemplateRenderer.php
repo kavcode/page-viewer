@@ -6,14 +6,18 @@ namespace App\Services;
 
 class TemplateRenderer
 {
-    private $templatesRootDir;
-    private $globals;
-    public function __construct(string $templatesRootDir, array $globals = [])
-    {
-        $this->templatesRootDir = $templatesRootDir;
-        $this->globals = $globals;
+    public function __construct(
+        private readonly string $templatesRootDir,
+        private readonly array $globals = []
+    ) {
     }
 
+    /**
+     * @psalm-suppress UnresolvableInclude
+     * @param string $templatePath
+     * @param array $context
+     * @return string
+     */
     public function render(string $templatePath, array $context = []): string
     {
         extract(array_merge($this->globals, $context), EXTR_OVERWRITE);

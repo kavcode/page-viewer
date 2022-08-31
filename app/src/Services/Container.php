@@ -6,9 +6,27 @@ namespace App\Services;
 
 class Container
 {
-    private $config;
-    private $definitions = [];
-    private $services = [];
+    private array $config;
+
+    /**
+     * @var array<string, callable>
+     */
+    private array $definitions = [];
+
+    /**
+     * @var array<string, object>
+     */
+    private array $services = [];
+
+    /**
+     * @param array{
+     *     templates: string,
+     *     documents: array{
+     *       driver: string,
+     *       drivers: array<string, array<string, string|int|float|bool>>
+     *     }
+     * } $config
+     */
     public function __construct(array $config)
     {
         $this->config = $config;
@@ -31,7 +49,11 @@ class Container
             if (!isset($this->definitions[$service])) {
                 throw new \RuntimeException("There is no definition for service {$service}");
             }
-            $this->services[$service] = $this->definitions[$service]($this);
+            $instance = $this->definitions[$service]($this);
+            if (!is_object($instance)) {
+                throw new \RuntimeException("Service '{$service}' is not an object");
+            }
+            $this->services[$service] = $instance;
         }
 
         return $this->services[$service];

@@ -8,22 +8,22 @@ use App\Markdown\Parser;
 
 class DocumentFileSystemLoader implements DocumentRepositoryInterface
 {
-    private $sourceDir;
-    private $parser;
-    private $headlineExtractor;
-    private $documents;
-    public function __construct(string $sourceDir, Parser $parser, HeadlineExtractor $headlineExtractor)
-    {
-        $this->sourceDir = $sourceDir;
-        $this->parser = $parser;
-        $this->headlineExtractor = $headlineExtractor;
+    /**
+     * @var Document[]|null
+     */
+    private ?array $documents = null;
+
+    public function __construct(
+        private readonly string $sourceDir,
+        private readonly Parser $parser,
+        private readonly HeadlineExtractor $headlineExtractor
+    ) {
     }
 
     public function findByLink(string $link): ?Document
     {
-        $this->loadDocuments();
-        foreach ($this->documents as $document) {
-        /** @var Document $document */
+        $documents = $this->loadDocuments();
+        foreach ($documents as $document) {
             if ($document->getLink() === $link) {
                 return $document;
             }
@@ -33,19 +33,20 @@ class DocumentFileSystemLoader implements DocumentRepositoryInterface
 
     public function findAll(): array
     {
-        $this->loadDocuments();
-        return $this->documents;
+        return $this->loadDocuments();
     }
 
     public function findByName(string $pattern): array
     {
-        $this->loadDocuments();
-        return array_filter($this->documents, function (Document $document) use ($pattern) {
-
-            return strpos($document->getTitle(), $pattern) !== false;
-        });
+        return array_filter(
+            $this->loadDocuments(),
+            fn(Document $document) => str_contains($document->getTitle(), $pattern)
+        );
     }
 
+    /**
+     * @return Document[]
+     */
     private function loadDocuments(): array
     {
         if ($this->documents !== null) {

@@ -8,6 +8,10 @@ use App\Markdown\LineWalkerInterface;
 
 class EmailParser implements LineWalkerInterface
 {
+    /**
+     * @param array<array-key, mixed> $words
+     * @return string[]
+     */
     public function walk(array $words): array
     {
         $result = [];

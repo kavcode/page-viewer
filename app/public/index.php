@@ -74,7 +74,7 @@ $container
     })
     ->define('Router', function (Container $container) {
         return new Router([
-            'home'   => ['/', $container->get('HomeController'), 'default' => true],
+            'home'   => ['/', $container->get('HomeController'), ['default' => true]],
             'page'   => ['/page', $container->get('PageController')],
             'search' => ['/search', $container->get('SearchController')],
         ]);

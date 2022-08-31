@@ -6,12 +6,10 @@ namespace App\Markdown;
 
 class ParseResult
 {
-    private $title;
-    private $html;
-    public function __construct(string $title, string $html)
-    {
-        $this->title = $title;
-        $this->html = $html;
+    public function __construct(
+        private readonly string $title,
+        private readonly string $html
+    ) {
     }
 
     public function getTitle(): string

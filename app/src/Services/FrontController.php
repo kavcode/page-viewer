@@ -6,12 +6,10 @@ namespace App\Services;
 
 class FrontController
 {
-    private $router;
-    private $responseFactory;
-    public function __construct(Router $router, ResponseFactory $responseFactory)
-    {
-        $this->router = $router;
-        $this->responseFactory = $responseFactory;
+    public function __construct(
+        private readonly Router $router,
+        private readonly ResponseFactory $responseFactory
+    ) {
     }
 
     public function handle(Request $request): Response

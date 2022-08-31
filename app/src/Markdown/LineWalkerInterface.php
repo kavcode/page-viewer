@@ -6,5 +6,9 @@ namespace App\Markdown;
 
 interface LineWalkerInterface
 {
+    /**
+     * @param string[] $words
+     * @return string[]
+     */
     public function walk(array $words): array;
 }

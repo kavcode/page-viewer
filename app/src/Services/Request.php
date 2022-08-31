@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-class Request
+use App\Contracts\RequestInterface;
+
+class Request implements RequestInterface
 {
-    private $path;
-    private $query;
-    public function __construct(string $path, array $query)
-    {
-        $this->path = $path;
-        $this->query = $query;
+    public function __construct(
+        private readonly string $path,
+        private readonly array $query
+    ) {
     }
 
     public function getPath(): string
@@ -21,8 +21,8 @@ class Request
 
     public function getQueryParam(string $key): ?string
     {
-        return $this->query[$key]
-            ? trim(strip_tags($this->query[$key]))
+        return isset($this->query[$key])
+            ? trim(strip_tags((string) $this->query[$key]))
             : null;
     }
 }

@@ -52,14 +52,18 @@ class WordSplitter
         return $result;
     }
 
+    /**
+     * @param string[] $words
+     * @return string
+     */
     public function collectLine(array $words): string
     {
         $lineCollector = [];
-        $lastWord = false;
+        $lastWord = '';
         foreach ($words as $word) {
             if (in_array($word, [',', '.', ':', '?', '!'], true) && $lastWord) {
                 $lineCollector[] = $lastWord . $word;
-                $lastWord = false;
+                $lastWord = '';
                 continue;
             }
 

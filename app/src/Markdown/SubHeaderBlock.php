@@ -6,7 +6,13 @@ namespace App\Markdown;
 
 class SubHeaderBlock extends Block
 {
-    private $level;
+    private int $level;
+
+    /**
+     * @param int $type
+     * @param string[] $lines
+     * @param int $level
+     */
     public function __construct(int $type, array $lines, int $level)
     {
         parent::__construct($type, $lines);

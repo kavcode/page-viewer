@@ -7,8 +7,8 @@ namespace App\Markdown;
 interface BlockCollectionWalkerInterface
 {
     /**
-     * @param Block[] $collection
-     * @return Block[]
+     * @param array<int, Block> $collection
+     * @return array<int, Block>
      */
     public function walk(array $collection): array;
 }

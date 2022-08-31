@@ -1,1 +1,5 @@
-<div class="document"><?= $document->getContent() ?></div>
+<?php if ($document): ?>
+    <div class="document"><?= $document->getContent() ?></div>
+<?php eles: ?>
+    <p>Page not found</p>
+<?php endif; ?>

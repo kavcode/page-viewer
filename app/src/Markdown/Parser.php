@@ -6,19 +6,24 @@ namespace App\Markdown;
 
 class Parser
 {
-    private $lineWalkers = [];
-    private $blockWalkers = [];
-    private $blocksExtractor;
-    private $wordSplitter;
-    private $htmlWriter;
-    public function __construct(BlocksExtractor $blocksExtractor, WordSplitter $wordSplitter, HtmlWriter $htmlWriter)
-    {
-        $this->blocksExtractor = $blocksExtractor;
-        $this->wordSplitter = $wordSplitter;
-        $this->htmlWriter = $htmlWriter;
+    /**
+     * @var LineWalkerInterface[]
+     */
+    private array $lineWalkers = [];
+
+    /**
+     * @var BlockCollectionWalkerInterface[]
+     */
+    private array $blockWalkers = [];
+
+    public function __construct(
+        private readonly BlocksExtractor $blocksExtractor,
+        private readonly WordSplitter $wordSplitter,
+        private readonly HtmlWriter $htmlWriter
+    ) {
     }
 
-    public function addLineWalker(LineWalkerInterface $lineWalker)
+    public function addLineWalker(LineWalkerInterface $lineWalker): void
     {
         $this->lineWalkers[] = $lineWalker;
     }
@@ -37,7 +42,6 @@ class Parser
             foreach ($block->getLines() as $line) {
                 $words = $this->wordSplitter->splitOnWordsAndMarks($line);
                 foreach ($this->lineWalkers as $walker) {
-                    /** @var LineWalkerInterface  $walker */
                     $words = $walker->walk($words);
                 }
 
@@ -47,7 +51,6 @@ class Parser
         }
 
         foreach ($this->blockWalkers as $walker) {
-/** @var BlockCollectionWalkerInterface $walker */
             $blocks = $walker->walk($blocks);
         }
 

@@ -14,6 +14,7 @@ class HtmlWriter
     {
         $result = [];
         foreach ($blocks as $block) {
+            $tag = null;
             switch ($block->getType()) {
                 case BlockTypeInterface::PARAGRAPH:
                     $tag = 'p';
@@ -24,7 +25,9 @@ class HtmlWriter
                     break;
 
                 case BlockTypeInterface::SUBHEADER:
-                    $tag = 'h' . $block->getLevel();
+                    if ($block instanceof SubHeaderBlock) {
+                        $tag = 'h' . $block->getLevel();
+                    }
                     break;
 
                 case BlockTypeInterface::LIST_ITEM:

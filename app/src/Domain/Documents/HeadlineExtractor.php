@@ -33,7 +33,7 @@ class HeadlineExtractor
 
                     if ($state === self::READ_CONTENT) {
                         if ($this->isHeadlineBeginning($text, $i, $len)) {
-                        // This means we've come across something like this <h1>..<h1
+                            // This means we've come across something like this <h1>..<h1
                             return null;
                         }
 
@@ -46,12 +46,11 @@ class HeadlineExtractor
                     }
 
                     if ($state === self::WAIT_CONTENT) {
-// This means we've come across something like this <h1...<
+                        // This means we've come across something like this <h1...<
                         return null;
                     }
-
-
                     break;
+
                 case '>':
                     if ($state === self::WAIT_CONTENT) {
                         $state = self::READ_CONTENT;
@@ -61,9 +60,8 @@ class HeadlineExtractor
                     if ($state === self::READ_CONTENT) {
                         $content .= $ch;
                     }
-
-
                     break;
+
                 default:
                     if ($state === self::READ_CONTENT) {
                         $content .= $ch;
@@ -73,14 +71,14 @@ class HeadlineExtractor
         return null;
     }
 
-    private function isHeadlineBeginning(&$buffer, int $currentPos, int $len): bool
+    private function isHeadlineBeginning(string &$buffer, int $currentPos, int $len): bool
     {
         return $currentPos + 2 < $len
             && strtolower($buffer[$currentPos + 1]) === 'h'
             && $buffer[$currentPos + 2] === '1';
     }
 
-    private function isHeadlineEnding(&$buffer, int $currentPos, int $len): bool
+    private function isHeadlineEnding(string &$buffer, int $currentPos, int $len): bool
     {
         return $currentPos + 4 < $len
             && $buffer[$currentPos + 1] === '/'

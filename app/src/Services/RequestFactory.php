@@ -8,6 +8,6 @@ class RequestFactory
 {
     public function createFromGlobals(): Request
     {
-        return new Request($_SERVER['DOCUMENT_URI'], $_GET);
+        return new Request((string) $_SERVER['DOCUMENT_URI'], $_GET);
     }
 }
