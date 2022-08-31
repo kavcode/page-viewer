@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Services;
 
@@ -6,11 +8,7 @@ class Request
 {
     private $path;
     private $query;
-
-    public function __construct(
-        string $path,
-        array $query
-    )
+    public function __construct(string $path, array $query)
     {
         $this->path = $path;
         $this->query = $query;

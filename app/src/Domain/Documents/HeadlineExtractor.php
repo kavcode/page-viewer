@@ -1,12 +1,17 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Domain\Documents;
 
 class HeadlineExtractor
 {
-    private const WAIT_TAG = 0;     // waiting for <h1 combination
-    private const WAIT_CONTENT = 1; // tag is opened, waiting for closing >
-    private const READ_CONTENT = 2; // waiting for </h1> combination
+    private const WAIT_TAG = 0;
+// waiting for <h1 combination
+    private const WAIT_CONTENT = 1;
+// tag is opened, waiting for closing >
+    private const READ_CONTENT = 2;
+// waiting for </h1> combination
 
     public function extract(string $text): ?string
     {
@@ -16,11 +21,9 @@ class HeadlineExtractor
 
         for ($i = 0; $i < $len; $i++) {
             $ch = $text[$i];
-
             switch ($ch) {
                 case '<':
                     if ($state === self::WAIT_TAG) {
-
                         if ($this->isHeadlineBeginning($text, $i, $len)) {
                             $state = self::WAIT_CONTENT;
                             $i += 2;
@@ -30,7 +33,7 @@ class HeadlineExtractor
 
                     if ($state === self::READ_CONTENT) {
                         if ($this->isHeadlineBeginning($text, $i, $len)) {
-                            // This means we've come across something like this <h1>..<h1
+                        // This means we've come across something like this <h1>..<h1
                             return null;
                         }
 
@@ -43,12 +46,12 @@ class HeadlineExtractor
                     }
 
                     if ($state === self::WAIT_CONTENT) {
-                        // This means we've come across something like this <h1...<
+// This means we've come across something like this <h1...<
                         return null;
                     }
 
-                    break;
 
+                    break;
                 case '>':
                     if ($state === self::WAIT_CONTENT) {
                         $state = self::READ_CONTENT;
@@ -59,8 +62,8 @@ class HeadlineExtractor
                         $content .= $ch;
                     }
 
-                    break;
 
+                    break;
                 default:
                     if ($state === self::READ_CONTENT) {
                         $content .= $ch;

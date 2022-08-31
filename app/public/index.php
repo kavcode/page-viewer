@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use App\Controllers\HomeController;
 use App\Controllers\PageController;
@@ -31,7 +33,8 @@ $container
     })
     ->define('TemplateRenderer', function (Container $container) {
         return new TemplateRenderer(
-            $container->getConfig()['templates'], [
+            $container->getConfig()['templates'],
+            [
                 '_link' => function (string $name, array $params = []) use ($container) {
                     return $container->get('Router')->link($name, $params);
                 }

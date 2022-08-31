@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Markdown;
 
@@ -7,11 +9,7 @@ class Block implements BlockInterface
     private $type;
     private $lines;
     private $children = [];
-
-    public function __construct(
-        int $type,
-        array $lines = []
-    )
+    public function __construct(int $type, array $lines = [])
     {
         $this->type = $type;
         $this->lines = $lines;

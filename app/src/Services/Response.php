@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Services;
 
@@ -6,11 +8,7 @@ class Response
 {
     private $content;
     private $code;
-
-    public function __construct(
-        string $content,
-        int $code = 200
-    )
+    public function __construct(string $content, int $code = 200)
     {
         $this->content = $content;
         $this->code = $code;

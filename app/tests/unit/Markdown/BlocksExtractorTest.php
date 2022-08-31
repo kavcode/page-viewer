@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Tests\Unit\Markdown;
 
@@ -10,14 +12,11 @@ class BlocksExtractorTest extends Unit
     public function testExtractingBlocks(): void
     {
         $extractor = new BlocksExtractor();
-
         $result = $extractor->extract([
             'Foo'
         ]);
         $this->assertCount(1, $result);
         $this->assertEquals('Foo', $result[0]->getLines()[0]);
-
-
         $result = $extractor->extract([
             ' ',
             'Foo',
@@ -25,31 +24,26 @@ class BlocksExtractorTest extends Unit
         ]);
         $this->assertCount(1, $result);
         $this->assertEquals('Foo', $result[0]->getLines()[0]);
-
         $result = $extractor->extract([
             'Foo',
             ' '
         ]);
         $this->assertCount(1, $result);
         $this->assertEquals('Foo', $result[0]->getLines()[0]);
-
         $result = $extractor->extract([
             ' ',
             'Foo',
         ]);
         $this->assertCount(1, $result);
         $this->assertEquals('Foo', $result[0]->getLines()[0]);
-
         $result = $extractor->extract([
             ' ',
             'Foo',
             'Zoo'
         ]);
-
         $this->assertCount(1, $result);
         $this->assertEquals('Foo', $result[0]->getLines()[0]);
         $this->assertEquals('Zoo', $result[0]->getLines()[1]);
-
         $result = $extractor->extract([
             ' ',
             'Foo',
@@ -59,7 +53,6 @@ class BlocksExtractorTest extends Unit
         $this->assertCount(1, $result);
         $this->assertEquals('Foo', $result[0]->getLines()[0]);
         $this->assertEquals('Zoo', $result[0]->getLines()[1]);
-
         $result = $extractor->extract([
             ' ',
             'Foo',

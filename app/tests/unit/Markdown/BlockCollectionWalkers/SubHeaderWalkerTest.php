@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Tests\Unit\Markdown\BlockCollectionWalkers;
 
@@ -14,17 +16,17 @@ class SubHeaderWalkerTest extends Unit
         $walker = new SubHeaderWalker();
         $result = $walker->walk([
             new Block(
-                BlockTypeInterface::PARAGRAPH, [
+                BlockTypeInterface::PARAGRAPH,
+                [
                 'Hello world',
                 'Really hey!',
-            ])
+                ]
+            )
         ]);
-
         $this->assertEquals([
             'Hello world',
             'Really hey!',
         ], $result[0]->getLines());
-
         $this->assertEquals(BlockTypeInterface::PARAGRAPH, $result[0]->getType());
     }
 
@@ -33,17 +35,17 @@ class SubHeaderWalkerTest extends Unit
         $walker = new SubHeaderWalker();
         $result = $walker->walk([
             new Block(
-                BlockTypeInterface::PARAGRAPH, [
+                BlockTypeInterface::PARAGRAPH,
+                [
                 '# Hello world',
                 'Really hey!',
-            ])
+                ]
+            )
         ]);
-
         $this->assertEquals([
             '# Hello world',
             'Really hey!',
         ], $result[0]->getLines());
-
         $this->assertEquals(BlockTypeInterface::PARAGRAPH, $result[0]->getType());
     }
 
@@ -52,18 +54,18 @@ class SubHeaderWalkerTest extends Unit
         $walker = new SubHeaderWalker();
         $result = $walker->walk([
             new Block(
-                BlockTypeInterface::PARAGRAPH, [
+                BlockTypeInterface::PARAGRAPH,
+                [
                 '## Hello world',
                 'Really hey!',
-            ])
+                ]
+            )
         ]);
-
         $this->assertEquals([
             'Hello world',
             'Really hey!',
         ], $result[0]->getLines());
-
         $this->assertEquals(BlockTypeInterface::SUBHEADER, $result[0]->getType());
-        $this->assertEquals(2, $result[0]->getLevel() );
+        $this->assertEquals(2, $result[0]->getLevel());
     }
 }

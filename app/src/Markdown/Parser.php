@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Markdown;
 
@@ -6,44 +8,31 @@ class Parser
 {
     private $lineWalkers = [];
     private $blockWalkers = [];
-
     private $blocksExtractor;
     private $wordSplitter;
     private $htmlWriter;
-
-    public function __construct(
-        BlocksExtractor $blocksExtractor,
-        WordSplitter $wordSplitter,
-        HtmlWriter $htmlWriter
-    )
+    public function __construct(BlocksExtractor $blocksExtractor, WordSplitter $wordSplitter, HtmlWriter $htmlWriter)
     {
         $this->blocksExtractor = $blocksExtractor;
         $this->wordSplitter = $wordSplitter;
         $this->htmlWriter = $htmlWriter;
     }
 
-    public function addLineWalker(
-        LineWalkerInterface $lineWalker
-    )
+    public function addLineWalker(LineWalkerInterface $lineWalker)
     {
         $this->lineWalkers[] = $lineWalker;
     }
 
-    public function addBlockCollectionWalker(
-        BlockCollectionWalkerInterface $blockCollectionWalker
-    ) : void
+    public function addBlockCollectionWalker(BlockCollectionWalkerInterface $blockCollectionWalker): void
     {
         $this->blockWalkers[] = $blockCollectionWalker;
     }
 
-    public function parseFromLineArray(
-        array $lines
-    ) : ParseResult
+    public function parseFromLineArray(array $lines): ParseResult
     {
         $blocks = $this->blocksExtractor->extract($lines);
-
         foreach ($blocks as $block) {
-            /** @var Block $blcok */
+        /** @var Block $blcok */
             $processedLines = [];
             foreach ($block->getLines() as $line) {
                 $words = $this->wordSplitter->splitOnWordsAndMarks($line);
@@ -53,13 +42,12 @@ class Parser
                 }
 
                 $processedLines[] = $this->wordSplitter->collectLine($words);
-
             }
             $block->updateLines($processedLines);
         }
 
         foreach ($this->blockWalkers as $walker) {
-            /** @var BlockCollectionWalkerInterface $walker */
+/** @var BlockCollectionWalkerInterface $walker */
             $blocks = $walker->walk($blocks);
         }
 
@@ -70,9 +58,6 @@ class Parser
             }
         }
 
-        return new ParseResult(
-            $title,
-            $this->htmlWriter->write($blocks)
-        );
+        return new ParseResult($title, $this->htmlWriter->write($blocks));
     }
 }

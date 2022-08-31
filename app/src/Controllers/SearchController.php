@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controllers;
 
@@ -10,11 +12,7 @@ class SearchController
 {
     private $renderer;
     private $repositoryFactory;
-
-    public function __construct(
-        TemplateRenderer $renderer,
-        DocumentRepositoryFactory $repositoryFactory
-    )
+    public function __construct(TemplateRenderer $renderer, DocumentRepositoryFactory $repositoryFactory)
     {
         $this->renderer = $renderer;
         $this->repositoryFactory = $repositoryFactory;
@@ -25,21 +23,22 @@ class SearchController
     {
         $documents = [];
         $term = $request->getQueryParam('term');
-
         if ($term) {
             $repository = $this->repositoryFactory->create();
             $documents = $repository->findByName($term);
         }
 
         $content = $this->renderer->render(
-            'documents/view_collection.phtml', [
+            'documents/view_collection.phtml',
+            [
                 'documents' => $documents,
                 'term' => $term
             ]
         );
 
         return $this->renderer->render(
-            'layouts/default.phtml', [
+            'layouts/default.phtml',
+            [
                 'content' => $content,
                 'term' => $term
             ]

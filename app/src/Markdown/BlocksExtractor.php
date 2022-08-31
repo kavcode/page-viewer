@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Markdown;
 
@@ -28,7 +30,7 @@ class BlocksExtractor
 
             if ($isPrevLineEmpty) {
                 $type = preg_match('/^\*/', $line) ? BlockTypeInterface::LIST_ITEM : BlockTypeInterface::PARAGRAPH;
-                $line = $type === BlockTypeInterface::LIST_ITEM ? substr($line,1) : $line;
+                $line = $type === BlockTypeInterface::LIST_ITEM ? substr($line, 1) : $line;
                 $currentBlock = new Block($type, [$line]);
                 $isPrevLineEmpty = false;
                 continue;
@@ -36,7 +38,7 @@ class BlocksExtractor
 
             if (preg_match('/^\*/', $line)) {
                 $blocks[] = $currentBlock;
-                $currentBlock = new Block(BlockTypeInterface::LIST_ITEM, [substr($line,1)]);
+                $currentBlock = new Block(BlockTypeInterface::LIST_ITEM, [substr($line, 1)]);
                 continue;
             }
 

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Services;
 
@@ -6,11 +8,7 @@ class FrontController
 {
     private $router;
     private $responseFactory;
-
-    public function __construct(
-        Router $router,
-        ResponseFactory $responseFactory
-    )
+    public function __construct(Router $router, ResponseFactory $responseFactory)
     {
         $this->router = $router;
         $this->responseFactory = $responseFactory;
@@ -28,8 +26,6 @@ class FrontController
             return $this->responseFactory->createFromString($result, 200);
         }
 
-        throw new \RuntimeException(
-            "Controller returns bad result"
-        );
+        throw new \RuntimeException("Controller returns bad result");
     }
 }

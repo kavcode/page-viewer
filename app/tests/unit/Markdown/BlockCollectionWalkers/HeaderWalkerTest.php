@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Tests\Unit\Markdown\BlockCollectionWalkers;
 
@@ -14,17 +16,17 @@ class HeaderWalkerTest extends Unit
         $walker = new HeaderWalker();
         $result = $walker->walk([
             new Block(
-                BlockTypeInterface::PARAGRAPH, [
+                BlockTypeInterface::PARAGRAPH,
+                [
                 'Hello world',
                 'Really hey!',
-            ])
+                ]
+            )
         ]);
-
         $this->assertEquals([
             'Hello world',
             'Really hey!',
         ], $result[0]->getLines());
-
         $this->assertEquals(BlockTypeInterface::PARAGRAPH, $result[0]->getType());
     }
 
@@ -33,16 +35,16 @@ class HeaderWalkerTest extends Unit
         $walker = new HeaderWalker();
         $result = $walker->walk([
             new Block(
-                BlockTypeInterface::PARAGRAPH, [
+                BlockTypeInterface::PARAGRAPH,
+                [
                 'Hello world',
                 '-------- ',
-            ])
+                ]
+            )
         ]);
-
         $this->assertEquals([
             'Hello world'
         ], $result[0]->getLines());
-
         $this->assertEquals(BlockTypeInterface::HEADER, $result[0]->getType());
     }
 
@@ -51,16 +53,16 @@ class HeaderWalkerTest extends Unit
         $walker = new HeaderWalker();
         $result = $walker->walk([
             new Block(
-                BlockTypeInterface::PARAGRAPH, [
+                BlockTypeInterface::PARAGRAPH,
+                [
                 'Hello world',
                 '==== ',
-            ])
+                ]
+            )
         ]);
-
         $this->assertEquals([
             'Hello world'
         ], $result[0]->getLines());
-
         $this->assertEquals(BlockTypeInterface::HEADER, $result[0]->getType());
     }
 }

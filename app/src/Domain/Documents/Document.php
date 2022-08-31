@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Domain\Documents;
 
@@ -7,12 +9,7 @@ class Document
     private $title;
     private $link;
     private $content;
-
-    public function __construct(
-        string $title,
-        string $link,
-        string $content
-    )
+    public function __construct(string $title, string $link, string $content)
     {
         $this->title = $title;
         $this->link = $link;

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Markdown;
 
@@ -6,11 +8,7 @@ class ParseResult
 {
     private $title;
     private $html;
-
-    public function __construct(
-        string $title,
-        string $html
-    )
+    public function __construct(string $title, string $html)
     {
         $this->title = $title;
         $this->html = $html;

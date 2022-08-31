@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controllers;
 
@@ -11,11 +13,7 @@ class HomeController
 {
     private $renderer;
     private $repositoryFactory;
-
-    public function __construct(
-        TemplateRenderer $renderer,
-        DocumentRepositoryFactory $repositoryFactory
-    )
+    public function __construct(TemplateRenderer $renderer, DocumentRepositoryFactory $repositoryFactory)
     {
         $this->renderer = $renderer;
         $this->repositoryFactory = $repositoryFactory;
@@ -26,13 +24,15 @@ class HomeController
         $repository = $this->repositoryFactory->create();
 
         $content = $this->renderer->render(
-           'documents/view_collection.phtml', [
+            'documents/view_collection.phtml',
+            [
                'documents' => $repository->findAll()
             ]
         );
 
         return $this->renderer->render(
-            'layouts/default.phtml', [
+            'layouts/default.phtml',
+            [
                 'content' => $content
             ]
         );

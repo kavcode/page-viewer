@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Services;
 
@@ -12,8 +14,7 @@ class Router
     private $pathMap = [];
     private $nameMap = [];
     private $default;
-
-    /**
+/**
      * Router constructor.
      * @param array $rotes Example [
      *      'name' => ['/path', new PathController()]
@@ -23,24 +24,18 @@ class Router
     {
         foreach ($rotes as $name => $config) {
             if (!is_array($config)) {
-                throw new \RuntimeException(
-                    "Route config for {$name} has bad format. It should be an array."
-                );
+                throw new \RuntimeException("Route config for {$name} has bad format. It should be an array.");
             }
 
             [$path, $callback] = $config;
             if (!is_string($path) || !isset($path[0]) || !$path[0] === '/') {
-                throw new \RuntimeException(
-                    "Route config for {$name} has bad format. " .
-                    "The first element should be a string stars with '/' symbol"
-                );
+                throw new \RuntimeException("Route config for {$name} has bad format. " .
+                    "The first element should be a string stars with '/' symbol");
             }
 
             if (!is_callable($callback)) {
-                throw new \RuntimeException(
-                    "Route config for {$name} has bad format. " .
-                    "The second element should be a callable"
-                );
+                throw new \RuntimeException("Route config for {$name} has bad format. " .
+                    "The second element should be a callable");
             }
 
             if (isset($config['default'])) {
@@ -56,9 +51,7 @@ class Router
     {
         $path = $request->getPath();
         if (!isset($this->pathMap[$path]) && !$this->default) {
-            throw new RouteNotFoundException(
-                "Can't find any handler for path '{$path}'"
-            );
+            throw new RouteNotFoundException("Can't find any handler for path '{$path}'");
         }
         return $this->pathMap[$path] ?? $this->pathMap[$this->default];
     }
@@ -66,9 +59,7 @@ class Router
     public function link(string $name, array $params = [])
     {
         if (!isset($this->nameMap[$name])) {
-            throw new \RuntimeException(
-                "Can't find any route with name '{$name}'"
-            );
+            throw new \RuntimeException("Can't find any route with name '{$name}'");
         }
 
         $query = [];

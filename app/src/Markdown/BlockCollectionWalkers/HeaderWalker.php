@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Markdown\BlockCollectionWalkers;
 
@@ -12,11 +14,13 @@ class HeaderWalker implements BlockCollectionWalkerInterface
     {
         $result = [];
         foreach ($collection as $block) {
-            /** @var Block $block */
+        /** @var Block $block */
             $lines = $block->getLines();
             $linesCount = count($lines);
-            if ($linesCount >= 2
-                && preg_match('/^([-]+|[=]+)\s*$/m', $lines[$linesCount - 1])) {
+            if (
+                $linesCount >= 2
+                && preg_match('/^([-]+|[=]+)\s*$/m', $lines[$linesCount - 1])
+            ) {
                 array_pop($lines);
                 $result[] = new Block(BlockTypeInterface::HEADER, $lines);
                 continue;

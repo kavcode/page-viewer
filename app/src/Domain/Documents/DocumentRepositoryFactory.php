@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Domain\Documents;
 
@@ -9,16 +11,10 @@ class DocumentRepositoryFactory
 {
     public const DRIVER_FS = 'fs';
     public const DRIVER_MYSQL = 'mysql';
-
     private $container;
     private $parser;
     private $headlineExtractor;
-
-    public function __construct(
-        Container $container,
-        Parser $parser,
-        HeadlineExtractor $headlineExtractor
-    )
+    public function __construct(Container $container, Parser $parser, HeadlineExtractor $headlineExtractor)
     {
         $this->container = $container;
         $this->parser = $parser;
@@ -47,9 +43,7 @@ class DocumentRepositoryFactory
                 );
 
             default:
-                throw new \RuntimeException(
-                    "Unknown datasource driver `{$driver}`. `fs` and `mysql` are available"
-                );
+                throw new \RuntimeException("Unknown datasource driver `{$driver}`. `fs` and `mysql` are available");
         }
     }
 }

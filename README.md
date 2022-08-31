@@ -12,15 +12,18 @@
 ### How to stop 
 
 Go to the project directory if you aren't there
-
 ```
 λ  docker-compose down
 ```
 
-### How to run tests 
-
+### How to run tests
 ```
 λ docker-compose exec php-fpm vendor/bin/codecept run unit
+```
+
+### How to check code styling
+```
+λ docker-compose exec php-fpm  vendor/bin/phpcs
 ```
 
 ## Description

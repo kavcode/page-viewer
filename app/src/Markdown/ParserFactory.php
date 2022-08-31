@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Markdown;
 
@@ -13,11 +15,7 @@ class ParserFactory
 {
     public function create(): Parser
     {
-        $parser = new Parser(
-            new BlocksExtractor(),
-            new WordSplitter(),
-            new HtmlWriter()
-        );
+        $parser = new Parser(new BlocksExtractor(), new WordSplitter(), new HtmlWriter());
         $parser->addLineWalker(new LinksParser());
         $parser->addLineWalker(new EmailParser());
         $parser->addBlockCollectionWalker(new HeaderWalker());

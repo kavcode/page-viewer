@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Markdown\BlockCollectionWalkers;
 
@@ -13,11 +15,9 @@ class SubHeaderWalker implements BlockCollectionWalkerInterface
     {
         $result = [];
         foreach ($collection as $block) {
-            /** @var Block $block */
+        /** @var Block $block */
             $lines = $block->getLines();
-
             if (preg_match('/^(#+)[^#](.*)$/', $lines[0], $match)) {
-
                 $level = strlen($match[1]);
                 if ($level > 1 && $level < 7) {
                     $lines[0] = $match[2];

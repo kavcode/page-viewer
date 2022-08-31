@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Domain\Documents;
 
@@ -10,15 +12,8 @@ class DocumentMysqlLoader implements DocumentRepositoryInterface
     private $user;
     private $password;
     private $parser;
-
     private $connection;
-
-    public function __construct(
-        string $dsn,
-        string $user,
-        string $password,
-        Parser $parser
-    )
+    public function __construct(string $dsn, string $user, string $password, Parser $parser)
     {
         $this->dsn = $dsn;
         $this->user = $user;
@@ -31,7 +26,8 @@ class DocumentMysqlLoader implements DocumentRepositoryInterface
     {
         $stmt = $this->getConnection()
             ->prepare(
-                'SELECT link.link, page.title, page.mime, page.text FROM link INNER JOIN page ON link.page_id = page.id'
+                'SELECT link.link, page.title, page.mime, page.text 
+                         FROM link INNER JOIN page ON link.page_id = page.id'
             );
 
         $result = $stmt->execute();
@@ -41,12 +37,7 @@ class DocumentMysqlLoader implements DocumentRepositoryInterface
 
         $data = [];
         foreach ($stmt->fetchAll() as $row) {
-            $data[] = $this->createDocument(
-                $row['title'],
-                $row['link'],
-                $row['text'],
-                $row['mime']
-            );
+            $data[] = $this->createDocument($row['title'], $row['link'], $row['text'], $row['mime']);
         }
 
         return $data;
@@ -56,7 +47,9 @@ class DocumentMysqlLoader implements DocumentRepositoryInterface
     {
         $stmt = $this->getConnection()
             ->prepare(
-                "SELECT link.link, page.title, page.mime, page.text FROM link INNER JOIN page ON link.page_id = page.id WHERE page.title LIKE :pattern"
+                "SELECT link.link, page.title, page.mime, page.text 
+                         FROM link INNER JOIN page ON link.page_id = page.id 
+                        WHERE page.title LIKE :pattern"
             );
         $value = "%{$pattern}%";
         $stmt->bindParam('pattern', $value);
@@ -67,12 +60,7 @@ class DocumentMysqlLoader implements DocumentRepositoryInterface
 
         $data = [];
         foreach ($stmt->fetchAll() as $row) {
-            $data[] = $this->createDocument(
-                $row['title'],
-                $row['link'],
-                $row['text'],
-                $row['mime']
-            );
+            $data[] = $this->createDocument($row['title'], $row['link'], $row['text'], $row['mime']);
         }
 
         return $data;
@@ -82,7 +70,9 @@ class DocumentMysqlLoader implements DocumentRepositoryInterface
     {
         $stmt = $this->getConnection()
             ->prepare(
-                'SELECT link.link, page.title, page.mime, page.text FROM link INNER JOIN page ON link.page_id = page.id WHERE link = :link'
+                'SELECT link.link, page.title, page.mime, page.text 
+                         FROM link INNER JOIN page ON link.page_id = page.id 
+                        WHERE link = :link'
             );
         $stmt->bindParam('link', $link);
         $result = $stmt->execute();
@@ -91,7 +81,6 @@ class DocumentMysqlLoader implements DocumentRepositoryInterface
         }
 
         $data = $stmt->fetchAll();
-
         return isset($data[0])
             ? $this->createDocument($data[0]['title'], $data[0]['link'], $data[0]['text'], $data[0]['mime'])
             : null;
@@ -106,19 +95,10 @@ class DocumentMysqlLoader implements DocumentRepositoryInterface
         return $this->connection;
     }
 
-    private function createDocument(
-        string $title,
-        string $link,
-        string $text,
-        string $mime
-    ) : Document
+    private function createDocument(string $title, string $link, string $text, string $mime): Document
     {
-        return new Document(
-            $title,
-            $link,
-            $mime === 'text/plain'
+        return new Document($title, $link, $mime === 'text/plain'
                 ? $this->parser->parseFromLineArray(preg_split('/\n/m', $text))->getHtml()
-                : $text
-        );
+                : $text);
     }
 }

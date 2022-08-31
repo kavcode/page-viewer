@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Domain\Documents;
 
@@ -10,12 +12,7 @@ class DocumentFileSystemLoader implements DocumentRepositoryInterface
     private $parser;
     private $headlineExtractor;
     private $documents;
-
-    public function __construct(
-        string $sourceDir,
-        Parser $parser,
-        HeadlineExtractor $headlineExtractor
-    )
+    public function __construct(string $sourceDir, Parser $parser, HeadlineExtractor $headlineExtractor)
     {
         $this->sourceDir = $sourceDir;
         $this->parser = $parser;
@@ -26,7 +23,7 @@ class DocumentFileSystemLoader implements DocumentRepositoryInterface
     {
         $this->loadDocuments();
         foreach ($this->documents as $document) {
-            /** @var Document $document */
+        /** @var Document $document */
             if ($document->getLink() === $link) {
                 return $document;
             }
@@ -44,6 +41,7 @@ class DocumentFileSystemLoader implements DocumentRepositoryInterface
     {
         $this->loadDocuments();
         return array_filter($this->documents, function (Document $document) use ($pattern) {
+
             return strpos($document->getTitle(), $pattern) !== false;
         });
     }
@@ -77,11 +75,7 @@ class DocumentFileSystemLoader implements DocumentRepositoryInterface
 
             if ($match[2] === 'txt') {
                 $result = $this->parser->parseFromLineArray(file($path));
-                $this->documents[] = new Document(
-                    $result->getTitle(),
-                    $link,
-                    $result->getHtml()
-                );
+                $this->documents[] = new Document($result->getTitle(), $link, $result->getHtml());
             }
 
             if ($match[2] === 'html') {
@@ -91,11 +85,7 @@ class DocumentFileSystemLoader implements DocumentRepositoryInterface
                     $title = '[untitled]';
                 }
 
-                $this->documents[] = new Document(
-                    $title,
-                    $link,
-                    $content
-                );
+                $this->documents[] = new Document($title, $link, $content);
             }
         }
 

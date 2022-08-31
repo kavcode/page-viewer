@@ -1,21 +1,23 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Markdown;
 
 class WordSplitter
 {
-    public function splitOnWordsAndMarks(
-        string &$line
-    ) : array
+    public function splitOnWordsAndMarks(string &$line): array
     {
         $result = [];
         $currentWord = [];
         $len = strlen($line);
         for ($i = 0; $i < $len; $i++) {
             $char = $line[$i];
-            if (in_array($char, [':', '.', '?', '!'], true)
+            if (
+                in_array($char, [':', '.', '?', '!'], true)
                 && $i + 1 < $len
-                && preg_match('/\s/', $line[$i+1])) {
+                && preg_match('/\s/', $line[$i + 1])
+            ) {
                 $result[] = implode('', $currentWord);
                 $currentWord = [];
                 $result[] = $char;
@@ -23,14 +25,15 @@ class WordSplitter
                 continue;
             }
 
-            if (in_array($char, [','], true)
+            if (
+                in_array($char, [','], true)
                 && $i + 1 < $len
-                && !preg_match('/[0-9]/', $line[$i+1])) {
+                && !preg_match('/[0-9]/', $line[$i + 1])
+            ) {
                 $result[] = implode('', $currentWord);
                 $currentWord = [];
                 $result[] = $char;
-
-                if (preg_match('/\s/', $line[$i+1])) {
+                if (preg_match('/\s/', $line[$i + 1])) {
                     $i++;
                 }
 
@@ -53,7 +56,7 @@ class WordSplitter
     {
         $lineCollector = [];
         $lastWord = false;
-        foreach ($words  as $word) {
+        foreach ($words as $word) {
             if (in_array($word, [',', '.', ':', '?', '!'], true) && $lastWord) {
                 $lineCollector[] = $lastWord . $word;
                 $lastWord = false;

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Markdown\BlockCollectionWalkers;
 
@@ -13,9 +15,8 @@ class UnorderedListWalker implements BlockCollectionWalkerInterface
         $result = [];
         $lastKey = null;
         foreach ($collection as $k => $block) {
-            /** @var Block $block */
+        /** @var Block $block */
             if ($block->getType() === BlockTypeInterface::LIST_ITEM) {
-
                 if (!$lastKey) {
                     $result[$k] = new Block(BlockTypeInterface::UNORDERED_LIST);
                     $result[$k]->addChild($block);
@@ -24,7 +25,6 @@ class UnorderedListWalker implements BlockCollectionWalkerInterface
                 }
 
                 if ($result[$lastKey]->getType() !== BlockTypeInterface::UNORDERED_LIST) {
-
                     if ($k - 1 !== $lastKey) {
                         $k = $lastKey + 1;
                     }

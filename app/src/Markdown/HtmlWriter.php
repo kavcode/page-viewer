@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Markdown;
 
@@ -34,10 +36,7 @@ class HtmlWriter
                     break;
 
                 default:
-                    throw new \RuntimeException(
-                        "Undefined block type {$block->getType()}"
-                    );
-
+                    throw new \RuntimeException("Undefined block type {$block->getType()}");
             }
 
             if ($block->hasChildren()) {
