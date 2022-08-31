@@ -6,7 +6,7 @@
 λ cd /path/to/project
 λ mv .env.exaple .env
 λ docker-compose run php-fpm composer install
-λ  docker-compose up -d
+λ docker-compose up -d
 ```
 
 ### How to stop 
@@ -15,6 +15,12 @@ Go to the project directory if you aren't there
 
 ```
 λ  docker-compose down
+```
+
+### How to run tests 
+
+```
+λ docker-compose exec php-fpm vendor/bin/codecept run unit
 ```
 
 ## Description

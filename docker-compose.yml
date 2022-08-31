@@ -38,8 +38,15 @@ services:
     build: 
         context: docker/php-fpm
         dockerfile: Dockerfile
+        args:
+          APP_CONTAINER_USER: ${APP_CONTAINER_USER}
+          APP_CONTAINER_UID: ${APP_CONTAINER_UID}
+          APP_CONTAINER_GID: ${APP_CONTAINER_GID}
+          APP_CONTAINER_VAR_DIR: ${APP_CONTAINER_VAR_DIR}
+          APP_CONTAINER_CACHE_DIR: ${APP_CONTAINER_CACHE_DIR}
     volumes:
       - ./app:/home/app
+    working_dir: /home/app
     environment:
       PS1: ${PS1}
       PS1_SRV_NAME: php-fpm
